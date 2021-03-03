@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="mapChart" style="width: 1000px;height: 700px;padding: 10px 10px 10px 10px;margin: 20px 20px 20px 20px;"></div>
+</body>
+</html>
+<script src='echarts.min.js'></script>
+<script src="jquery.min.js"></script>
+<script>
+    $.getJSON('https://geo.datav.aliyun.com/areas_v2/bound/430100_full.json', function (data) {
+
+    // 注册一个地图名称
+    echarts.registerMap(name, data);
+    var mapChart = echarts.init(document.getElementById('mapChart'));
+    name = "fijvnw";
+    var mapData = {
+            '沙坪': [112.9970016, 28.3598003],
+            '东伍家岭': [112.9789963, 28.2609005],
+            '经开区环保局': [113.0810013, 28.2448997],
+            '高开区环保局': [112.8880005, 28.2227001],
+            '马坡岭': [113.0780029, 28.2031994],
+            '火车新站': [118.3118, 35.2936],
+            '湖南师范大学': [113.0009995, 28.1917992],
+            '雨花区环保局': [113.0019989, 28.1427994],
+            '湖南中医药大学': [112.8919983, 28.1312008],
+            '天心区环保局': [112.9840012, 28.1207008]
+    };
+    var data = [
+                    {name: '沙坪', value: 20057.34},
+                    {name: '东伍家岭', value: 15477.48},
+                    {name: '经开区环保局', value: 31686.1},
+                    {name: '高开区环保局', value: 6992.6},
+                    {name: '马坡岭', value: 44045.49},
+                    {name: '火车新站', value: 40689.64},
+                    {name: '湖南师范大学', value: 37659.78},
+                    {name: '雨花区环保局', value: 45180.97},
+                    {name: '湖南中医药大学', value: 55204.26},
+                    {name: '天心区环保局', value: 55204.26}
+                ];
+    var convertData = function (data) {
+            var res = [];
+            for (var i = 0; i < data.length; i++) {
+                var geoCoord = geoCoordMap[data[i].name];
+                if (geoCoord) {
+                    res.push({
+                        name: data[i].name,
+                        value: geoCoord.concat(data[i].value)
+                    });
+                }
+            }
+            return res;
+        };
+    option = {
+        backgroundColor: 'transparent',
+        title: {
+            text: '全国主要城市空气质量',
+            left: 'center',
+            textStyle: {
+                color: '#baf'
+            }
+        },
+        tooltip: {
+            trigger: 'item'
+        },
+        series: [
+            {
+                type: 'scatter',   // 指明地图类型
+                map: name,
+                label: {
+                    show: true
+                },
+                roam: true ,    // 可缩放
+                data: convertData(data),
+            encode: {
+                value: 2
+            },
+            label: {
+                formatter: '{b}',
+                position: 'right'
+            },
+            itemStyle: {
+                color: '#ddb926'
+            },
+            emphasis: {
+                label: {
+                    show: true
+                }
+            }
+                // data: [
+                //     {name: '沙坪', value: 20057.34},
+                //     {name: '望城区', value: 15477.48},
+                //     {name: '岳麓区', value: 31686.1},
+                //     {name: '开福区', value: 6992.6},
+                //     {name: '芙蓉区', value: 44045.49},
+                //     {name: '天心区', value: 40689.64},
+                //     {name: '雨花区', value: 37659.78},
+                //     {name: '长沙县', value: 45180.97},
+                //     {name: '浏阳市', value: 55204.26},
+                //     {name: '浏阳市', value: 55204.26}
+                // ]
+            }
+        ]
+    };
+    mapChart.setOption(option);
+
+});
+</script>

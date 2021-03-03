@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>各地区CO的平均数据</title>
+</head>
+<body>
+    <div class="box1" style="width: 800px;height: 400px"></div>
+</body>
+</html>
+<script src='echarts.min.js'></script>
+<script>
+        var myChart = echarts.init(document.querySelector(".box1"));
+        // 2.指定配置项和数据
+        var option = {
+                title: {
+                    text: "各地区CO的平均数据",
+                    left: 'center'
+                },
+                color: ["#3398DB"],
+                xAxis: {
+                    type: 'category',
+                    data: ['伍家岭','天心区环保局','沙坪','湖南中医药大学','湖南师范大学','火车新站','经开区环保局','雨花区环保局','马坡岭','高开区环保局'],
+                    axisLabel: {
+                        interval: 0,//横轴信息全部显示  
+                        rotate: 75,
+                    },
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        type: 'bar',
+                        label: { // 柱状图上的文字设置
+                            show: true, // 是否显示
+                            rotate: 45, // 旋转角度
+                            position: 'top' // 显示位置
+                        },
+                        barWidth: '60%', // 柱的宽度
+                        data: [1.462515152,0.8569899,0.962951461,0.905436363,0.763989581,1.854670105,0.7354433,0.717292451,0.653629211,0.852442305],
+                        itemStyle: {
+                            // 修改柱子圆角
+                            barBorderRadius: 5
+                        }
+                    }
+                ]
+            }
+        // 3.把配置项给实例对象
+        myChart.setOption(option);
+</script>
